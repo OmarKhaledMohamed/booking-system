@@ -7,6 +7,7 @@ import {
   createBooking,
   getMyBookings,
   cancelBooking,
+  rescheduleBooking,
 } from "./booking.controller.js";
 
 const router = Router();
@@ -65,6 +66,34 @@ const router = Router();
  *       200:
  *         description: Booking cancelled successfully
  */
+/**
+ * @swagger
+ * /bookings/{id}/reschedule:
+ *   patch:
+ *     summary: Reschedule Booking
+ *     tags:
+ *       - Booking
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               newAppointmentId:
+ *                 type: integer
+ *     responses:
+ *       200:
+ *         description: Booking rescheduled successfully
+ */
 router.post(
   "/",
   auth,
@@ -74,5 +103,5 @@ router.post(
 );
 router.get("/my", auth, authorization("user"), getMyBookings);
 router.patch("/:id/cancel", auth, authorization("user"), cancelBooking);
-
+router.patch("/:id/reschedule", auth, authorization("user"), rescheduleBooking);
 export default router;

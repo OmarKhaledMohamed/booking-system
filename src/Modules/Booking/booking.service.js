@@ -128,3 +128,69 @@ export const cancelBookingService = async (userId, bookingId) => {
     message: "Booking cancelled successfully",
   };
 };
+export const rescheduleBookingService = async (
+  userId,
+  bookingId,
+  newAppointmentId,
+) => {
+  const booking = await Booking.findOne({
+    where: {
+      id: bookingId,
+      userId,
+    },
+  });
+
+  if (!booking) {
+    return {
+      success: false,
+      statusCode: 404,
+      message: "Booking not found",
+    };
+  }
+
+  const newAppointment = await Appointment.findByPk(newAppointmentId);
+
+  if (!newAppointment) {
+    return {
+      success: false,
+      statusCode: 404,
+      message: "Appointment not found",
+    };
+  }
+
+  if (newAppointment.status !== "available") {
+    return {
+      success: false,
+      statusCode: 409,
+      message: "Appointment is not available",
+    };
+  }
+
+  if (booking.appointmentId === Number(newAppointmentId)) {
+    return {
+      success: false,
+      statusCode: 400,
+      message: "Booking already assigned to this appointment",
+    };
+  }
+
+  const oldAppointment = await Appointment.findByPk(booking.appointmentId);
+
+  oldAppointment.status = "available";
+  await oldAppointment.save();
+
+  newAppointment.status = "booked";
+  await newAppointment.save();
+
+  booking.appointmentId = newAppointment.id;
+  booking.status = "confirmed";
+
+  await booking.save();
+
+  return {
+    success: true,
+    statusCode: 200,
+    message: "Booking rescheduled successfully",
+    data: booking,
+  };
+};
