@@ -1,0 +1,34 @@
+import dotenv from "dotenv";
+import sequelize from "./DB/db.js";
+import User from "./Models/User.model.js";
+import swaggerUi from "swagger-ui-express";
+import swaggerSpec from "./swagger.js";
+import authRouter from "./Modules/Auth/auth.routes.js";
+import Appointment from "./Models/Appointment.model.js";
+import "./DB/associations.js";
+import Doctor from "./Models/DoctorProfile.model.js";
+import doctorRouter from "./Modules/Doctor/doctor.routes.js";
+import appointmentRouter from "./Modules/Appointment/appointment.routes.js";
+import bookingRouter from "./Modules/Booking/booking.routes.js";
+export default async function bootstrap(app, express) {
+  dotenv.config();
+  app.use(express.json());
+  app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+  app.use("/auth", authRouter);
+  app.use("/doctor", doctorRouter);
+  app.use("/appointments", appointmentRouter);
+  app.use("/bookings", bookingRouter);
+  app.get("/", (req, res) => {
+    res.send("Booking System API");
+  });
+
+  try {
+    await sequelize.authenticate();
+    console.log("Database Connected");
+
+    await sequelize.sync({ alter: true });
+    console.log("Tables Synced");
+  } catch (error) {
+    console.log(error);
+  }
+}
