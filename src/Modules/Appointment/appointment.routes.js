@@ -9,6 +9,7 @@ import {
   createAppointment,
   getMyAppointments,
   getAvailableAppointments,
+  deleteAppointment,
 } from "./appointment.controller.js";
 const router = Router();
 
@@ -30,15 +31,17 @@ const router = Router();
  *             properties:
  *               date:
  *                 type: string
+ *                 example: "2026-06-25"
  *               startTime:
  *                 type: string
+ *                 example: "14:00:00"
  *               endTime:
  *                 type: string
+ *                 example: "14:30:00"
  *     responses:
  *       201:
  *         description: Appointment created successfully
  */
-
 /**
  * @swagger
  * /appointments/my:
@@ -67,6 +70,26 @@ const router = Router();
  *       200:
  *         description: Available appointments
  */
+/**
+ * @swagger
+ * /appointments/{id}:
+ *   delete:
+ *     summary: Delete Appointment
+ *     tags:
+ *       - Appointment
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       200:
+ *         description: Appointment deleted successfully
+ */
+router.delete("/:id", auth, authorization("doctor"), deleteAppointment);
 router.post(
   "/",
   auth,
@@ -75,7 +98,6 @@ router.post(
   createAppointment,
 );
 router.get("/", getAvailableAppointments);
-router.get("/my", auth, authorization("doctor"), getMyAppointments);
 router.get("/my", auth, authorization("doctor"), getMyAppointments);
 
 export default router;

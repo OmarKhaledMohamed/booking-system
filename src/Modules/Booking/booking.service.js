@@ -79,6 +79,22 @@ export const getMyBookingsService = async (userId) => {
     where: {
       userId,
     },
+    include: [
+      {
+        model: Appointment,
+        include: [
+          {
+            model: DoctorProfile,
+            include: [
+              {
+                model: User,
+                attributes: ["id", "name", "email"],
+              },
+            ],
+          },
+        ],
+      },
+    ],
     order: [["createdAt", "DESC"]],
   });
 

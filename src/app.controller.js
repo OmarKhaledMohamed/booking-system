@@ -10,6 +10,7 @@ import Doctor from "./Models/DoctorProfile.model.js";
 import doctorRouter from "./Modules/Doctor/doctor.routes.js";
 import appointmentRouter from "./Modules/Appointment/appointment.routes.js";
 import bookingRouter from "./Modules/Booking/booking.routes.js";
+import userRouter from "./Modules/User/user.routes.js";
 export default async function bootstrap(app, express) {
   dotenv.config();
   app.use(express.json());
@@ -18,6 +19,7 @@ export default async function bootstrap(app, express) {
   app.use("/doctor", doctorRouter);
   app.use("/appointments", appointmentRouter);
   app.use("/bookings", bookingRouter);
+  app.use("/user", userRouter);
   app.get("/", (req, res) => {
     res.send("Booking System API");
   });
@@ -26,7 +28,7 @@ export default async function bootstrap(app, express) {
     await sequelize.authenticate();
     console.log("Database Connected");
 
-    await sequelize.sync({ alter: true });
+    await sequelize.sync();
     console.log("Tables Synced");
   } catch (error) {
     console.log(error);

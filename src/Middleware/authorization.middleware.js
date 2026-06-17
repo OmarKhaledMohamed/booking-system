@@ -4,7 +4,7 @@ export const authorization = (...roles) => {
       return res.status(403).json({
         success: false,
         statusCode: 403,
-        message: "Access denied",
+        message: "You are not allowed to perform this action",
       });
     }
 

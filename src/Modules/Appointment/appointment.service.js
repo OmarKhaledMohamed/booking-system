@@ -119,3 +119,49 @@ export const getAvailableAppointmentsService = async () => {
     data: appointments,
   };
 };
+export const deleteAppointmentService = async (userId, appointmentId) => {
+  const doctor = await DoctorProfile.findOne({
+    where: {
+      userId,
+    },
+  });
+
+  if (!doctor) {
+    return {
+      success: false,
+      statusCode: 404,
+      message: "Doctor profile not found",
+    };
+  }
+
+  const appointment = await Appointment.findOne({
+    where: {
+      id: appointmentId,
+      doctorId: doctor.id,
+    },
+  });
+
+  if (!appointment) {
+    return {
+      success: false,
+      statusCode: 404,
+      message: "Appointment not found",
+    };
+  }
+
+  if (appointment.status === "booked") {
+    return {
+      success: false,
+      statusCode: 409,
+      message: "Cannot delete booked appointment",
+    };
+  }
+
+  await appointment.destroy();
+
+  return {
+    success: true,
+    statusCode: 200,
+    message: "Appointment deleted successfully",
+  };
+};
