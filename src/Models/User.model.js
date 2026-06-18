@@ -28,6 +28,24 @@ const User = sequelize.define("User", {
     type: DataTypes.ENUM("user", "doctor", "admin"),
     defaultValue: "user",
   },
+  resetToken: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
+
+  resetTokenExpires: {
+    type: DataTypes.DATE,
+    allowNull: true,
+  },
+  isVerified: {
+    type: DataTypes.BOOLEAN,
+    defaultValue: false,
+  },
+
+  verificationCode: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
 });
 
 export default User;
