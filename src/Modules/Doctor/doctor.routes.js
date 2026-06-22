@@ -30,11 +30,13 @@ const router = Router();
  *             type: object
  *             properties:
  *               specialization:
- *                 type: string
+ *                 type: Dentist
  *               experienceYears:
- *                 type: integer
+ *                 type: 10
  *               bio:
- *                 type: string
+ *                 type: xperienced Dentist
+ *                 image:
+ *                    type:https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=400
  *     responses:
  *       201:
  *         description: Profile created successfully
@@ -69,11 +71,13 @@ const router = Router();
  *             type: object
  *             properties:
  *               specialization:
- *                 type: string
+ *                 type: Dentist
  *               experienceYears:
- *                 type: integer
+ *                 type: 10
  *               bio:
- *                 type: string
+ *                 type: xperienced Dentist
+ *                 image:
+ *                    type:https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=400
  *     responses:
  *       200:
  *         description: Profile updated successfully

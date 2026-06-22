@@ -4,7 +4,7 @@ import User from "../../Models/User.model.js";
 import { Op } from "sequelize";
 import bcrypt from "bcryptjs";
 export const createProfileService = async (userId, profileData) => {
-  const { specialization, experienceYears, bio } = profileData;
+  const { specialization, experienceYears, bio, gender } = profileData;
 
   const isExist = await DoctorProfile.findOne({
     where: { userId },
@@ -23,6 +23,7 @@ export const createProfileService = async (userId, profileData) => {
     specialization,
     experienceYears,
     bio,
+    gender,
   });
 
   return {

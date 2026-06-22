@@ -1,6 +1,7 @@
 import Booking from "../../Models/Booking.model.js";
 import Appointment from "../../Models/Appointment.model.js";
-
+import DoctorProfile from "../../Models/DoctorProfile.model.js";
+import User from "../../Models/User.model.js";
 export const createBookingService = async (userId, appointmentId) => {
   // 1. Check appointment exists
   const appointment = await Appointment.findByPk(appointmentId);

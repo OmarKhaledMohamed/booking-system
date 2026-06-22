@@ -8,8 +8,15 @@ import doctorRouter from "./Modules/Doctor/doctor.routes.js";
 import appointmentRouter from "./Modules/Appointment/appointment.routes.js";
 import bookingRouter from "./Modules/Booking/booking.routes.js";
 import userRouter from "./Modules/User/user.routes.js";
+import cors from "cors";
 export default async function bootstrap(app, express) {
   dotenv.config();
+  app.use(
+    cors({
+      origin: ["http://localhost:5173", "http://localhost:5174"],
+      credentials: true,
+    }),
+  );
   app.use(express.json());
   app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
   app.use("/auth", authRouter);

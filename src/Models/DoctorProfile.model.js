@@ -27,6 +27,10 @@ const DoctorProfile = sequelize.define("DoctorProfile", {
   bio: {
     type: DataTypes.TEXT,
   },
+  gender: {
+    type: DataTypes.ENUM("male", "female"),
+    allowNull: false,
+  },
 });
 
 export default DoctorProfile;

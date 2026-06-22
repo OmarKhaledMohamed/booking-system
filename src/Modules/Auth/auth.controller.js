@@ -5,6 +5,7 @@ import {
   resetPasswordService,
   verifyEmailService,
 } from "./auth.service.js";
+import User from "../../Models/User.model.js";
 
 export const register = async (req, res) => {
   try {
@@ -34,10 +35,14 @@ export const login = async (req, res) => {
   }
 };
 export const profile = async (req, res) => {
+  const user = await User.findByPk(req.user.id, {
+    attributes: ["id", "name", "email", "role"],
+  });
+
   return res.status(200).json({
     success: true,
     statusCode: 200,
-    user: req.user,
+    user,
   });
 };
 export const dashboard = async (req, res) => {
